@@ -17,12 +17,12 @@ function index(req, res) {}
 
 /* send the data with the template */
 function people(req, res){
-        res.render('people.ejs', {data: data});
+        res.render('people', {data: data});
 }
-/*app.use(function (req, res, next) {
+app.use(function (req, res, next) {
     res.status(404).redirect('/404.html')
   })
-  */
+  
 
   function files(req, res) {
     if(req.params.type === 'mp3') {
