@@ -67,7 +67,7 @@ header {
     list-style-type: none;
 }
 
-.gf_person h3{
+.gf_person h3, h3{
     padding: 20px 0 0 0;
     margin: 0 auto;
     color: #3c91e6;
@@ -83,7 +83,7 @@ header {
     text-align: center;
 }
 
-.gf_person_bio{
+.gf_person_bio, p{
     width: 80%;
     padding-top: 30px;
     margin: 0 auto;
