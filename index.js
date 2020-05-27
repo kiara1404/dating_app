@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8800;
+const port = 8000;
 
 /* set templating engine */
 app.set('view engine', 'ejs');
@@ -8,12 +8,14 @@ app.set('view engine', 'ejs');
 /* where are the templates stored */
 app.set('views', 'view');
 
-app.get('/index.html', index);
+app.get('/', index);
 app.get('/people', people);
-app.get('files/:type', files);
+app.get('/files/:type', files);
 app.use(express.static('public'));
 
-function index(req, res) {}
+function index(req, res) {
+    res.render('index');
+}
 
 /* send the data with the template */
 function people(req, res){
@@ -32,7 +34,7 @@ app.use(function (req, res, next) {
         res.send('This is a pdf file...')
     }
     else if(req.params.type === 'image'){
-        res.send('this is an image... <img src="/public/img/man.jpeg">')
+        res.send('this will be an image...')
     }
     else {
         res.send('Now its only boring text')
