@@ -12,20 +12,24 @@ app.get('/', index);
 app.get('/people', people);
 app.get('/files/:type', files);
 app.use(express.static('public'));
-
-function index(req, res) {
+app.get('/', newProfile);
+app.get('/:name', profile)
+app.use(function (req, res, next) {
+    res.status(404).redirect('/404.html')
+  })
+  function index(req, res) {
     res.render('index');
 }
 
 /* send the data with the template */
 function people(req, res){
+
         res.render('people', {data: data});
 }
-app.use(function (req, res, next) {
-    res.status(404).redirect('/404.html')
-  })
-  
 
+function profile(req, res) {
+    res.render('detail.ejs', {data: data});
+  }
   function files(req, res) {
     if(req.params.type === 'mp3') {
         res.send('This is a mp3 file..')
@@ -39,6 +43,10 @@ app.use(function (req, res, next) {
     else {
         res.send('Now its only boring text')
     }
+}
+
+function newProfile(req, res){
+    res.render('new_profile');
 }
 
 

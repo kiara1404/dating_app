@@ -1,0 +1,20 @@
+
+<%- include('header'); -%>
+<h1>people</h1>
+<% for (var index = 0; index < data.length; index++) { %>
+  <h3>
+    <a href="/<%= data[index].id %>"><%= data[index].name%></a>
+  </h3>
+  <p><%= data[index].age %></p>
+  <p><%= data[index].bio %></p>
+<% } %>
+
+<main>
+    <h2 class="gf_heading">Join our community!</h2>
+    <article class="gf_wrapper">
+        <form>
+            <label></label>
+        </form>
+
+    </article>
+</main>

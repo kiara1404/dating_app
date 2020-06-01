@@ -1,0 +1,24 @@
+<%- include('header'); -%>
+
+<main>
+    <h2 class="gf_heading">Welcome <%= data.name%> </h2>
+    <article class="gf_wrapper"></article>
+        <ul class="gf_person">
+            <h3><%= data.name %></h3>
+            <li>
+                <h3 class="gf_person_name"><%= data.name %></h3>
+            </li>
+            <li>
+                <p class="gf_person_age"><%= data.age %></p>
+            </li>
+            <li>
+                <p class="gf_person_place"><%= data.place %></p>
+            </li>
+            <li>
+                <p class="gf_person_bio"><%= data.bio %></p>
+            </li>
+        </ul>
+        
+
+    </article>
+</main>
