@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const port = 8000;
+const port = 7000;
+const find = require('array-find');
 
 /* set templating engine */
 app.set('view engine', 'ejs');
@@ -10,44 +11,30 @@ app.set('views', 'view');
 
 app.get('/', index);
 app.get('/people', people);
-app.get('/files/:type', files);
 app.use(express.static('public'));
-app.get('/', newProfile);
-app.get('/:name', profile)
-app.use(function (req, res, next) {
+app.get('/:idgit', profile)
+app.use(notFound);
+
+function index(req, res) {
+res.render('index');
+}
+
+function notFound (req, res) {
     res.status(404).redirect('/404.html')
-  })
-  function index(req, res) {
-    res.render('index');
-}
-
-/* send the data with the template */
-function people(req, res){
-
-        res.render('people', {data: data});
-}
-
-function profile(req, res) {
-    res.render('detail.ejs', {data: data});
   }
-  function files(req, res) {
-    if(req.params.type === 'mp3') {
-        res.send('This is a mp3 file..')
-    }
-    else if(req.params.type === 'pdf'){
-        res.send('This is a pdf file...')
-    }
-    else if(req.params.type === 'image'){
-        res.send('this will be an image...')
-    }
-    else {
-        res.send('Now its only boring text')
-    }
+
+function people(req, res){
+    res.render('people', {data: data});}
+;
+
+function profile(req, res, next) {
+    var id = req.params.id;
+    var person = find(data, function (value) {
+        return value.id === id
+    })
+    res.render('detail.ejs', {data: person});
 }
 
-function newProfile(req, res){
-    res.render('new_profile');
-}
 
 
 
@@ -60,24 +47,28 @@ app.listen(port, function(){
 
 const data = [
     {
+    id: "0",
     name: "Sanne",
     age:"27",
     place:"Amsterdam",
     bio: "I just started my journey. I work fulltime so I find it hard to workout during the week. I am looking for someone who can hold me accountable and pushes me.",
     },
     {
+    id: "1",
     name: "Gaby",
     age:"22",
     place:"Alphen aan den Rijn",
     bio: "I have been doing fitness for two years now. I am very motivated and I like to workout 5 days a week. I am looking for someone I can help as I've had a friend who's helped me starting this journey.",
     },
     {
+    id: "2",
     name: "Tim",
     age:"24",
     place:"Rotterdam",
     bio: "I am a football trainer at Feyenoord. I love to help people improve their overall health. If you'd like to improve your cardio, hit me up!",
      },
      {
+    id: "3", 
     name: "Giordano",
     age:"21",
     place:"Rotterdam",

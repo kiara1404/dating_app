@@ -1,10 +1,9 @@
 <%- include('header'); -%>
 
-<main>
-    <h2 class="gf_heading">Welcome <%= data.name%> </h2>
-    <article class="gf_wrapper"></article>
+
+    <h2 class="gf_heading">Welcome to <%= data.name %>'s profile! </h2>
+    <article class="gf_wrapper">
         <ul class="gf_person">
-            <h3><%= data.name %></h3>
             <li>
                 <h3 class="gf_person_name"><%= data.name %></h3>
             </li>
@@ -15,10 +14,11 @@
                 <p class="gf_person_place"><%= data.place %></p>
             </li>
             <li>
+                <img src="img/man.jpeg" alt="" class="gf_person_img"></li>
+            <li>
                 <p class="gf_person_bio"><%= data.bio %></p>
             </li>
         </ul>
         
 
     </article>
-</main>
