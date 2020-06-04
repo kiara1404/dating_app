@@ -69,7 +69,8 @@ function add(req,res,next){
         if(err) {
             next(err)
         } else {
-            res.redirect('/'+ data.insertedId)
+            res.redirect('/')
+            console.log('data input succes', req.body.name)
         }
     }
 }
