@@ -5,6 +5,8 @@ const find = require('array-find');
 const bodyParser = require("body-parser"); 
 const slug = require("slug");
 const mongo = require('mongodb')
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 require('dotenv').config();
 
@@ -47,7 +49,15 @@ res.render('index');
 }
 
 function people(req, res){
-    res.render('people', {data: data});
+  db.collection('getfit').find().toArray(done)
+
+  function done(err, data) {
+    if(err){
+      next(err)
+    } else{
+       res.render('people', {data: data});
+      }
+    }
 }
 
 function notFound (req, res) {
@@ -57,6 +67,7 @@ function notFound (req, res) {
 function form(req, res) {
    res.render('add');
 }
+
 function add(req,res,next){
     db.collection("getfit").insertOne({
     name: req.body.name,
@@ -69,12 +80,28 @@ function add(req,res,next){
         if(err) {
             next(err)
         } else {
-            res.redirect('/')
+            res.redirect('/' + data.insertedId)
             console.log('data input succes', req.body.name)
         }
     }
 }
 
-function person(req, res) {
-    res.render('detail');
+
+
+function person(req,res, next){
+  let id = req.params.id;
+  db.collection("getfit").findOne({
+    _id: new mongo.ObjectID(id),
+  }, done);
+
+  function done(err, data) {
+    if(err) {
+        next(err)
+    } else {
+        res.render('detail.ejs', {data:data});
+        console.log('person found succes')
+    }
 }
+}
+
+
