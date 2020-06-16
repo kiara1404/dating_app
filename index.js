@@ -3,7 +3,6 @@ const app = express();
 const port = 8000;
 const find = require('array-find');
 const bodyParser = require("body-parser"); 
-const slug = require("slug");
 const mongo = require('mongodb')
 
 require('dotenv').config();
@@ -24,6 +23,7 @@ mongo.MongoClient.connect(url,
 }
 );
 
+
 //set templating engine 
 app.set('view engine', 'ejs');
 // where are the templates stored
@@ -37,6 +37,7 @@ app.use(express.static('public'));
 app.post('/', add)
 app.get('/add', form)
 app.get('/:id', person)
+app.delete('/:id', remove)
 app.listen(port, function(){
     console.log('The  server is running')
 });
@@ -47,7 +48,15 @@ res.render('index');
 }
 
 function people(req, res){
-    res.render('people', {data: data});
+  db.collection('users').find().toArray(done)
+
+  function done(err, data) {
+    if(err){
+      next(err)
+    } else{
+       res.render('people', {data: data});
+      }
+    }
 }
 
 function notFound (req, res) {
@@ -57,24 +66,59 @@ function notFound (req, res) {
 function form(req, res) {
    res.render('add');
 }
+
+
 function add(req,res,next){
-    db.collection("getfit").insertOne({
+    db.collection("users").insertOne({
     name: req.body.name,
     age: req.body.age,
     place: req.body.place,
-    bio: req.body.bio
+    email: req.body.email,
+    password: req.body.password,
+    training: req.body.training,
+    level: req.body.level
     }, done)
 
     function done(err, data) {
         if(err) {
             next(err)
         } else {
-            res.redirect('/')
+            res.redirect('/' + data.insertedId)
             console.log('data input succes', req.body.name)
         }
     }
 }
 
-function person(req, res) {
-    res.render('detail');
+
+
+function person(req,res, next){
+  let id = req.params.id;
+  db.collection("users").findOne({
+    _id: new mongo.ObjectID(id),
+  }, done);
+
+  function done(err, data) {
+    if(err) {
+        next(err)
+    } else {
+        res.render('detail.ejs', {data:data});
+        console.log('person found succes')
+    }
+}
+}
+
+function remove(req, res, next){
+  var id = req.params.id
+
+  db.collection("users").deleteOne({
+    _id: new mongo.ObjectID(id)
+  }, done)
+
+  function done(err) {
+    if (err) {
+      next(err)
+    } else {
+      res.json({status: 'ok'})
+    }
+}
 }
